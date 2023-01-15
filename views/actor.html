@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Actor Details</title>
+</head>
+<body>
+	<h1>Actor Details</h1>
+	<div>
+		<label>ID:</label>
+		<span>{{.ID}}</span>
+	</div>
+	<div>
+		<label>Name:</label>
+		<span>{{.FirstName}} {{.LastName}}</span>
+	</div>
+	<div>
+		<label>Gender:</label>
+		<span>{{.Gender}}</span>
+	</div>
+	<div>
+		<label>Age:</label>
+		<span>{{.Age}}</span>
+	</div>
+	<div>
+		<label>Movies:</label>
+		<ul>
+			{{range .Movies}}
+				<li>{{.Title}} ({{.Year}}) - Audience rating: {{.AudienceRating}}</li>
+            {{end}}
+         </ul>
+    </div>
+    </body>
+</html>
+    

@@ -11,18 +11,10 @@ type Actor struct {
 	LastName   string `json:"last_name"`
 	Gender     string `json:"gender"`
 	Age        int    `json:"age"`
-	Movies     []Movie `json:"movies"`
 	AudienceRating int `json:"audience_rating"`
 }
 
-// Movie struct represents a movie
-type Movie struct {
-	ID          int    `json:"id"`
-	Title       string `json:"title"`
-	Year        int    `json:"year"`
-	Genre       string `json:"genre"`
-	AudienceRating int `json:"audience_rating"`
-}
+
 
 // ActorModel struct represents the Actor model
 type ActorModel struct {

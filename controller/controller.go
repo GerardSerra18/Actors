@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"Actors/model"
 	"database/sql"
 	"encoding/json"
 	"net/http"
@@ -10,20 +11,20 @@ import (
 
 // ActorController struct represents the controller for actors
 type ActorController struct {
-	Model *ActorModel
+	Model model.ActorModel
 }
 
 // NewActorController creates a new ActorController
 func NewActorController(db *sql.DB) *ActorController {
 	return &ActorController{
-		Model: &ActorModel{DB: db},
+		Model: model.ActorModel{DB: db},
 	}
 }
 
 // CreateActorHandler handles the creation of a new actor
 func (c *ActorController) CreateActorHandler(w http.ResponseWriter, r *http.Request) {
 	// Decode request body
-	var actor Actor
+	var actor model.Actor
 	err := json.NewDecoder(r.Body).Decode(&actor)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -64,7 +65,36 @@ func (c *ActorController) GetActorHandler(w http.ResponseWriter, r *http.Request
 }
 
 // ViewActorHandler handles the display of an actor's details
-func ViewActorHandler(w http.ResponseWriter, r *http.Request) {
+func (c *ActorController) ViewActorHandler(w http.ResponseWriter, r *http.Request) {
+	id, _ := strconv.Atoi(r.URL.Query().Get("id"))
+	actor, _ := c.Model.GetActor(id)
+	t, _ := template.ParseFiles("views/actor.html")
+	t.Execute(w, actor)
+}
+
+// UpdateActorHandler handles the update of an actor's details
+func (c *ActorController) UpdateActorHandler(w http.ResponseWriter, r *http.Request) {
+	// Decode request body
+	var actor model.Actor
+	err := json.NewDecoder(r.Body).Decode(&actor)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	// Update actor
+	err = c.Model.UpdateActor(&actor)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Respond with success message
+	w.Write([]byte("Actor updated successfully"))
+}
+
+// DeleteActorHandler handles the deletion of an actor by ID
+func (c *ActorController) DeleteActorHandler(w http.ResponseWriter, r *http.Request) {
 	// Get actor ID from URL
 	id, err := strconv.Atoi(r.URL.Query().Get("id"))
 	if err != nil {
@@ -72,24 +102,13 @@ func ViewActorHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Get actor
-	actor, err := ActorModel.GetActor(id)
+	// Delete actor
+	err = c.Model.DeleteActor(id)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	// Parse template
-	t, err := template.ParseFiles("templates/actor.html")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	// Execute template
-	err = t.Execute(w, actor)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
+	// Respond with success message
+	w.Write([]byte("Actor deleted successfully"))
 }
-
