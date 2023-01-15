@@ -33,7 +33,6 @@ func main() {
     mux.HandleFunc("/actors/view", actorCtrl.ViewActorHandler)
     mux.HandleFunc("/actors/update", actorCtrl.UpdateActorHandler)
     mux.HandleFunc("/actors/delete", actorCtrl.DeleteActorHandler)
-    mux.Handle("/actors/images/", http.StripPrefix("/actors/images/", http.FileServer(http.Dir("actors/images"))))
 
     // Create server
     server := &http.Server{
