@@ -1,34 +1,29 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Actor Details</title>
-</head>
-<body>
-	<h1>Actor Details</h1>
-	<div>
-		<label>ID:</label>
-		<span>{{.ID}}</span>
-	</div>
-	<div>
-		<label>Name:</label>
-		<span>{{.FirstName}} {{.LastName}}</span>
-	</div>
-	<div>
-		<label>Gender:</label>
-		<span>{{.Gender}}</span>
-	</div>
-	<div>
-		<label>Age:</label>
-		<span>{{.Age}}</span>
-	</div>
-	<div>
-		<label>Movies:</label>
-		<ul>
-			{{range .Movies}}
-				<li>{{.Title}} ({{.Year}}) - Audience rating: {{.AudienceRating}}</li>
-            {{end}}
-         </ul>
+  <head>
+    <meta charset="UTF-8">
+    <title>Actor</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container">
+      <h1>{{.FirstName}} {{.LastName}}</h1>
+      <table class="table">
+        <tbody>
+          <tr>
+            <th>ID</th>
+            <td>{{.ID}}</td>
+          </tr>
+          <tr>
+            <th>Gender</th>
+            <td>{{.Gender}}</td>
+          </tr>
+          <tr>
+            <th>Age</th>
+            <td>{{.Age}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    </body>
+  </body>
 </html>
-    
